@@ -477,10 +477,6 @@ trait FlinkClientTrait extends Logger {
       case (false, false) =>
         client.cancel(jobID).get()
         null
-      case (true, false) =>
-        clientWrapper
-          .cancelWithSavepoint(jobID, savePointDir)
-          .get()
       case (_, _) =>
         clientWrapper
           .stopWithSavepoint(jobID, cancelRequest.withDrain, savePointDir)

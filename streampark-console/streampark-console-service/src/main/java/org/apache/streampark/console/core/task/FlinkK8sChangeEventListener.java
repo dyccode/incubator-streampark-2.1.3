@@ -83,8 +83,7 @@ public class FlinkK8sChangeEventListener {
     // email alerts when necessary
     if (FlinkAppState.FAILED.equals(state)
         || FlinkAppState.LOST.equals(state)
-        || FlinkAppState.RESTARTING.equals(state)
-        || FlinkAppState.FINISHED.equals(state)) {
+        || FlinkAppState.RESTARTING.equals(state)) {
       alertService.alert(app, state);
     }
   }
@@ -159,6 +158,11 @@ public class FlinkK8sChangeEventListener {
       if (duration <= 0) {
         duration = endTime - startTime;
       }
+    }
+
+    if (app.getOptionState() == OptionState.SAVEPOINTING.getValue()
+        && state == FlinkJobState.CANCELED()) {
+      state = FlinkJobState.FINISHED();
     }
 
     app.setState(fromK8sFlinkJobState(state).getValue());
