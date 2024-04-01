@@ -443,6 +443,7 @@ public class FlinkAppHttpWatcher {
       application.setAvailableSlot(null);
       application.setJmMemory(null);
       application.setTmMemory(null);
+      application.setOptionState(OptionState.NONE.getValue());
       unWatching(appId);
     } else if (stopWatch) {
       unWatching(appId);
